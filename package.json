@@ -1,0 +1,23 @@
+{
+  "name": "initia",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BearLili/initia.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BearLili/initia/issues"
+  },
+  "homepage": "https://github.com/BearLili/initia#readme",
+  "dependencies": {
+    "@initia/initia.js": "^0.2.6",
+    "xlsx": "^0.18.5"
+  }
+}
