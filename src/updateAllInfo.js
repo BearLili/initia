@@ -4,7 +4,7 @@ const path = require("path");
 const fs = require("fs");
 
 // 获取绝对路径
-const keysFilePath = path.resolve(__dirname, "./../all_info.xlsx");
+const keysFilePath = path.resolve(__dirname, "./../files/allkeys.xlsx");
 
 if (!fs.existsSync(keysFilePath)) {
   throw new Error(`File not found: ${keysFilePath}`);
@@ -42,14 +42,23 @@ async function processBatch(startRow, endRow) {
     const privateKey = key.privateKey.toString("hex");
     const wallet = new Wallet(lcd, key);
     try {
-      const balances = await lcd.bank.balanceByDenom(
-        wallet.accAddress,
-        "move/944f8dd8dc49f96c25fea9849f16436dcfa6d564eec802f3ef7f8b3ea85368ff"
-      );
+      const balances = await lcd.bank.balance(wallet.accAddress);
+      let balancesArr = balances?.[0]?.["_coins"];
+      let gas =
+        balancesArr?.[
+          "move/944f8dd8dc49f96c25fea9849f16436dcfa6d564eec802f3ef7f8b3ea85368ff"
+        ]?.amount;
+      let init = balancesArr?.["uinit"]?.amount;
+
+      // const balances = await lcd.bank.balanceByDenom(
+      //   wallet.accAddress,
+      //   "move/944f8dd8dc49f96c25fea9849f16436dcfa6d564eec802f3ef7f8b3ea85368ff"
+      // );
 
       return {
         webid,
-        amount: convertAmount(balances.amount),
+        gas: convertAmount(gas),
+        init: convertAmount(init),
         address: wallet.accAddress,
         privateKey,
       };
@@ -60,8 +69,8 @@ async function processBatch(startRow, endRow) {
   const results = await Promise.all(promises);
 
   const keysDict = results.reduce(
-    (acc, { webid, amount, address, privateKey }) => {
-      acc[webid] = { amount, address, privateKey };
+    (acc, { webid, address, privateKey, gas, init }) => {
+      acc[webid] = { address, privateKey, gas, init };
       return acc;
     },
     {}
@@ -72,9 +81,10 @@ async function processBatch(startRow, endRow) {
     if (index > 0) {
       const webid = index + 1;
       if (keysDict.hasOwnProperty(webid)) {
-        row[2] = keysDict[webid].amount || row[2]; // 假设 gas 在第3列
-        row[3] = keysDict[webid].address || row[3]; // 假设 address 在第4列
-        row[4] = keysDict[webid].privateKey || row[4]; // 假设 privateKey 在第5列
+        row[2] = keysDict[webid].gas || row[2]; // 假设 gas 在第3列
+        row[3] = keysDict[webid].init || row[3]; // 假设 gas 在第3列
+        row[4] = keysDict[webid].address || row[4]; // 假设 address 在第4列
+        row[5] = keysDict[webid].privateKey || row[5]; // 假设 privateKey 在第5列
       }
     }
   });
@@ -88,7 +98,7 @@ async function processBatch(startRow, endRow) {
   };
 
   // 保存更新后的 Excel 文件
-  XLSX.writeFile(keysWorkbook, keysFilePath);
+  XLSX.writeFile(keysWorkbook, "./allkeys.xlsx");
 }
 
 async function processAllBatches() {

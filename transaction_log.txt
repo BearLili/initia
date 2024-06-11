@@ -2,3 +2,39 @@
 2024-06-06T10:20:35.988Z - Success - To:  result.toAddress, Amount: result.amount, TxHash/Error: 638E9E7E9379B28ACBC0936C8B809208865208EC71FBE1E7268593D7A16BBE6B
 2024-06-06T10:21:53.761Z - Success - To:  result.toAddress, Amount: result.amount, TxHash/Error: DF0FD4319915A5A8764505BE2C59EC5A7E34A115F0422D193B6DEF20E9C033AF
 2024-06-06T10:22:57.538Z - Success - To:  result.toAddress, Amount: result.amount, TxHash/Error: D80A32A37ECC477CA7B3B70FAF16E3A0C895C7B2E822C62490707F1A594CE426
+2024-06-07T08:43:55.063Z - undefined - To: undefined, Amount: 100000, TxHash/Error: Request failed with status code 500
+2024-06-07T08:43:55.063Z - undefined - To: undefined, Amount: 100000, TxHash/Error: Request failed with status code 500
+2024-06-07T08:43:55.063Z - undefined - To: undefined, Amount: 100000, TxHash/Error: Request failed with status code 500
+2024-06-07T08:50:14.231Z - Failed - To: init1ugf2kysvgwchntvada30qk9hguyy8esd9pa5pw, Amount: 100000, TxHash/Error: Request failed with status code 500
+2024-06-07T08:50:14.231Z - Failed - To: init1lxs8y9ahwul5d4sw9uejsy5t5g28p7ay65fp6l, Amount: 100000, TxHash/Error: Request failed with status code 500
+2024-06-07T08:50:14.231Z - Failed - To: init1lkj4xql5ajwa7yml56lj94qyv6ag5lmdw3mp3s, Amount: 100000, TxHash/Error: Request failed with status code 500
+2024-06-07T09:01:17.048Z - Failed - To: init1ugf2kysvgwchntvada30qk9hguyy8esd9pa5pw, Amount: 100000, TxHash/Error: Request failed with status code 500
+2024-06-07T09:01:17.049Z - Failed - To: init1lxs8y9ahwul5d4sw9uejsy5t5g28p7ay65fp6l, Amount: 100000, TxHash/Error: Request failed with status code 500
+2024-06-07T09:01:17.049Z - Failed - To: init1lkj4xql5ajwa7yml56lj94qyv6ag5lmdw3mp3s, Amount: 100000, TxHash/Error: Request failed with status code 500
+2024-06-07T09:04:40.372Z - Failed - To: init1ugf2kysvgwchntvada30qk9hguyy8esd9pa5pw, Amount: 100000, TxHash/Error: Request failed with status code 500
+2024-06-07T09:04:40.373Z - Failed - To: init1lxs8y9ahwul5d4sw9uejsy5t5g28p7ay65fp6l, Amount: 100000, TxHash/Error: Request failed with status code 500
+2024-06-07T09:04:40.373Z - Failed - To: init1lkj4xql5ajwa7yml56lj94qyv6ag5lmdw3mp3s, Amount: 100000, TxHash/Error: Request failed with status code 500
+2024-06-07T09:10:10.958Z - Failed - To: init1ugf2kysvgwchntvada30qk9hguyy8esd9pa5pw, Amount: 100000, TxHash/Error: Request failed with status code 500
+2024-06-07T09:10:10.958Z - Failed - To: init1lxs8y9ahwul5d4sw9uejsy5t5g28p7ay65fp6l, Amount: 100000, TxHash/Error: Request failed with status code 500
+2024-06-07T09:10:10.958Z - Failed - To: init1lkj4xql5ajwa7yml56lj94qyv6ag5lmdw3mp3s, Amount: 100000, TxHash/Error: Request failed with status code 500
+2024-06-07T09:20:17.108Z - Failed - To: init1ugf2kysvgwchntvada30qk9hguyy8esd9pa5pw, Amount: 100000, TxHash/Error: this.fee.toProto is not a function
+2024-06-07T09:20:17.110Z - Failed - To: init1lxs8y9ahwul5d4sw9uejsy5t5g28p7ay65fp6l, Amount: 100000, TxHash/Error: this.fee.toProto is not a function
+2024-06-07T09:20:17.111Z - Failed - To: init1lkj4xql5ajwa7yml56lj94qyv6ag5lmdw3mp3s, Amount: 100000, TxHash/Error: this.fee.toProto is not a function
+2024-06-07T09:22:58.229Z - Failed - To: init1ugf2kysvgwchntvada30qk9hguyy8esd9pa5pw, Amount: 100000, TxHash/Error: this.fee.toProto is not a function
+2024-06-07T09:22:58.230Z - Failed - To: init1lxs8y9ahwul5d4sw9uejsy5t5g28p7ay65fp6l, Amount: 100000, TxHash/Error: this.fee.toProto is not a function
+2024-06-07T09:22:58.230Z - Failed - To: init1lkj4xql5ajwa7yml56lj94qyv6ag5lmdw3mp3s, Amount: 100000, TxHash/Error: this.fee.toProto is not a function
+2024-06-07T09:24:57.829Z - Failed - To: init1ugf2kysvgwchntvada30qk9hguyy8esd9pa5pw, Amount: 100000, TxHash/Error: this.fee.toProto is not a function
+2024-06-07T09:24:57.829Z - Failed - To: init1lxs8y9ahwul5d4sw9uejsy5t5g28p7ay65fp6l, Amount: 100000, TxHash/Error: this.fee.toProto is not a function
+2024-06-07T09:24:57.829Z - Failed - To: init1lkj4xql5ajwa7yml56lj94qyv6ag5lmdw3mp3s, Amount: 100000, TxHash/Error: this.fee.toProto is not a function
+2024-06-07T09:57:13.211Z - Failed - To: init1ugf2kysvgwchntvada30qk9hguyy8esd9pa5pw, Amount: 100000, TxHash/Error: this.fee.toProto is not a function
+2024-06-07T09:57:13.212Z - Failed - To: init1lxs8y9ahwul5d4sw9uejsy5t5g28p7ay65fp6l, Amount: 100000, TxHash/Error: this.fee.toProto is not a function
+2024-06-07T09:57:13.212Z - Failed - To: init1lkj4xql5ajwa7yml56lj94qyv6ag5lmdw3mp3s, Amount: 100000, TxHash/Error: this.fee.toProto is not a function
+2024-06-07T09:58:37.048Z - Failed - To: init1ugf2kysvgwchntvada30qk9hguyy8esd9pa5pw, Amount: 100000, TxHash/Error: this.fee.toProto is not a function
+2024-06-07T09:58:37.048Z - Failed - To: init1lxs8y9ahwul5d4sw9uejsy5t5g28p7ay65fp6l, Amount: 100000, TxHash/Error: this.fee.toProto is not a function
+2024-06-07T09:58:37.048Z - Failed - To: init1lkj4xql5ajwa7yml56lj94qyv6ag5lmdw3mp3s, Amount: 100000, TxHash/Error: this.fee.toProto is not a function
+2024-06-07T09:59:00.134Z - Success - To: init1ugf2kysvgwchntvada30qk9hguyy8esd9pa5pw, Amount: 100000, TxHash/Error: 235C4C786556AAACFC70B44A94FAD4E649C994095ADE3E5FE2B0077213E5153A
+2024-06-07T09:59:00.134Z - Success - To: init1lxs8y9ahwul5d4sw9uejsy5t5g28p7ay65fp6l, Amount: 100000, TxHash/Error: 3B46A1D3BD2A26ED187974D654AA229F440C34AE0A4B73C060AF60A6054489D2
+2024-06-07T09:59:00.135Z - Success - To: init1lkj4xql5ajwa7yml56lj94qyv6ag5lmdw3mp3s, Amount: 100000, TxHash/Error: F62EF7C41DA757711436111EA5AEE1368642F0A188B4BC5F3E74BD6781318D0E
+2024-06-07T10:00:00.983Z - Success - To: init1ugf2kysvgwchntvada30qk9hguyy8esd9pa5pw, Amount: 100000, TxHash/Error: 235C4C786556AAACFC70B44A94FAD4E649C994095ADE3E5FE2B0077213E5153A
+2024-06-07T10:00:00.983Z - Success - To: init1lxs8y9ahwul5d4sw9uejsy5t5g28p7ay65fp6l, Amount: 100000, TxHash/Error: 3B46A1D3BD2A26ED187974D654AA229F440C34AE0A4B73C060AF60A6054489D2
+2024-06-07T10:00:00.983Z - Success - To: init1lkj4xql5ajwa7yml56lj94qyv6ag5lmdw3mp3s, Amount: 100000, TxHash/Error: F62EF7C41DA757711436111EA5AEE1368642F0A188B4BC5F3E74BD6781318D0E
