@@ -25,9 +25,11 @@ const TOTAL_ROWS = keysData.length; // 总记录数
 
 const lcd = new LCDClient("https://lcd.initiation-1.initia.xyz");
 (async () => {
-  let tx = new TxInfo({
-    txhash: "8C49955D405412C874D241AFB531DF06E18DDDF6C7C57ED4463CD376260C2B31",
-  });
+  let sss =await lcd.tx.broadcast("8C49955D405412C874D241AFB531DF06E18DDDF6C7C57ED4463CD376260C2B31")
+
+  console.log('aasdsadadsas',sss)
+
+  debugger
 
   //   const txs = await lcd.tx.broadcast('8C49955D405412C874D241AFB531DF06E18DDDF6C7C57ED4463CD376260C2B31');
   const txs = await lcd.ibcTransfer.denomTraces();
