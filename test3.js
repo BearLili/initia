@@ -1,6 +1,4 @@
 const axios = require("axios");
-// const {HttpsProxyAgent} = require("https-proxy-agent");
-const { SocksProxyAgent } = require("socks-proxy-agent");
 const crypto = require("crypto");
 
 // OKX API密钥和私钥
@@ -9,7 +7,7 @@ const secretKey = "4A0A657F9082028A1ECA489AD77CBB28";
 const passphrase = "Sd@3181940";
 
 // API URL
-const baseUrl = "https://www.okx.com";
+const proxyBaseUrl = "http://localhost:3000/api";
 const withdrawApiUrl = "/api/v5/asset/withdrawal";
 const balanceApiUrl = "/api/v5/account/balance";
 
@@ -53,12 +51,20 @@ async function withdraw(withdrawal) {
   const headers = createHeaders(withdrawApiUrl, "POST", body);
 
   try {
-    const response = await axios.post(`${baseUrl}${withdrawApiUrl}`, body, {
-      headers,
-    });
+    const response = await axios.post(
+      `${proxyBaseUrl}${withdrawApiUrl}`,
+      body,
+      {
+        headers,
+      }
+    );
     console.log(`Withdrawal successful: ${response.data}`);
   } catch (error) {
-    console.error(`Error withdrawing: ${error.response.data}`);
+    console.error(
+      `Error withdrawing: ${
+        error.response ? error.response.data : error.message
+      }`
+    );
   }
 }
 
@@ -74,13 +80,19 @@ async function getBalance() {
   const headers = createHeaders(balanceApiUrl, "GET");
 
   try {
-    console.log(`${baseUrl}${balanceApiUrl}`);
-    const response = await axios.get(`${baseUrl}${balanceApiUrl}`, {
+    const response = await axios.get(`${proxyBaseUrl}${balanceApiUrl}`, {
       headers,
+      timeout: 30 * 1000,
     });
     console.log(`Account balance: ${JSON.stringify(response.data)}`);
+
   } catch (error) {
-    console.error(`Error fetching balance: ${error.response.data}`);
+
+    console.error(
+      `Error fetching balance: ${
+        error.response ? error.response.data : error.message
+      }`
+    );
   }
 }
 
