@@ -1,10 +1,10 @@
-const { Wallet, LCDClient, MnemonicKey } = require("@initia/initia.js");
+const { Wallet, LCDClient, MnemonicKey, bcs } = require("@initia/initia.js");
 const XLSX = require("xlsx");
 const path = require("path");
 const fs = require("fs");
 
 // 获取绝对路径
-const keysFilePath = path.resolve(__dirname, "./../files/allkeys.xlsx");
+const keysFilePath = path.resolve(__dirname, "./../files/initia.xlsx");
 
 if (!fs.existsSync(keysFilePath)) {
   throw new Error(`File not found: ${keysFilePath}`);
@@ -14,20 +14,17 @@ const keysWorkbook = XLSX.readFile(keysFilePath, { cellStyles: true });
 const keysSheet = keysWorkbook.Sheets[keysWorkbook.SheetNames[0]];
 const keysData = XLSX.utils.sheet_to_json(keysSheet, { header: 1 });
 
-const BATCH_SIZE = 200; // 每批处理200条记录
+const BATCH_SIZE = 100; // 每批处理200条记录
 const TOTAL_ROWS = keysData.length; // 总记录数
 
-function convertAmount(amount, decimalPlaces = 6) {
-  amount = amount.toString();
-  while (amount.length <= decimalPlaces) {
-    amount = "0" + amount;
-  }
-  const integerPart = amount.slice(0, -decimalPlaces);
-  const decimalPart = amount.slice(-decimalPlaces);
-  return `${integerPart}.${decimalPart}`;
-}
+const moduleAddress = "0x9065fda28f52bb14ade545411f02e8e07a9cb4ba";
+const moduleName = "jennie";
+const fnName = "get_jennie_state";
+const startTime = 1717552800;
 
-const lcd = new LCDClient("https://lcd.initiation-1.initia.xyz");
+const lcd = new LCDClient("https://lcd.initiation-1.initia.xyz", {
+  chainId: "initiation-1",
+});
 
 async function processBatch(startRow, endRow) {
   const keysData_s = keysData.slice(startRow, endRow);
@@ -39,52 +36,38 @@ async function processBatch(startRow, endRow) {
       mnemonic: keyword,
     });
 
-    const privateKey = key.privateKey.toString("hex");
-    const wallet = new Wallet(lcd, key);
     try {
-      const balances = await lcd.bank.balance(wallet.accAddress);
-      let balancesArr = balances?.[0]?.["_coins"];
-      let gas =
-        balancesArr?.[
-          "move/944f8dd8dc49f96c25fea9849f16436dcfa6d564eec802f3ef7f8b3ea85368ff"
-        ]?.amount;
-      let init = balancesArr?.["uinit"]?.amount;
-
-      // const balances = await lcd.bank.balanceByDenom(
-      //   wallet.accAddress,
-      //   "move/944f8dd8dc49f96c25fea9849f16436dcfa6d564eec802f3ef7f8b3ea85368ff"
-      // );
-
+      const _address = bcs.address().serialize(key.accAddress).toBase64(); // arguments, BCS-encoded
+      const viewResult = await lcd.move.viewFunction(
+        moduleAddress,
+        moduleName,
+        fnName,
+        undefined,
+        [_address]
+      );
+      console.log(viewResult);
       return {
         webid,
-        gas: convertAmount(gas),
-        init: convertAmount(init),
-        address: wallet.accAddress,
-        privateKey,
+        hp: viewResult?.hp,
+        isFeed: viewResult?.update_at > startTime ? true : false,
       };
     } catch (err) {
       return { webid };
     }
   });
   const results = await Promise.all(promises);
-
-  const keysDict = results.reduce(
-    (acc, { webid, address, privateKey, gas, init }) => {
-      acc[webid] = { address, privateKey, gas, init };
-      return acc;
-    },
-    {}
-  );
+  const keysDict = results.reduce((acc, { webid, hp, isFeed }) => {
+    acc[webid] = { hp, isFeed };
+    return acc;
+  }, {});
 
   // 更新原有的 keysData
   keysData.forEach((row, index) => {
     if (index > 0) {
       const webid = index + 1;
       if (keysDict.hasOwnProperty(webid)) {
-        row[2] = keysDict[webid].gas || row[2]; // 假设 gas 在第3列
-        row[3] = keysDict[webid].init || row[3]; // 假设 gas 在第3列
-        row[4] = keysDict[webid].address || row[4]; // 假设 address 在第4列
-        row[5] = keysDict[webid].privateKey || row[5]; // 假设 privateKey 在第5列
+        row[6] = keysDict[webid].hp || row[6]; // 假设 hp 在第7列
+        row[7] = keysDict[webid].isFeed || row[7]; // 假设 isFeed 在第8列
       }
     }
   });
