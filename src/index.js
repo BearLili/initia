@@ -11,7 +11,7 @@ const fs = require("fs");
 const { queryObjects } = require("v8");
 
 // 获取绝对路径
-const keysFilePath = path.resolve(__dirname, "./../files/initia.xlsx");
+const keysFilePath = path.resolve(__dirname, "./../files/info_6.15.xlsx");
 
 if (!fs.existsSync(keysFilePath)) {
   throw new Error(`File not found: ${keysFilePath}`);
@@ -60,7 +60,9 @@ async function processBatch(startRow, endRow, processFunction) {
       if (keysDict.hasOwnProperty(webid)) {
         // Update row based on keysDict result
         Object.keys(keysDict[webid]).forEach((key, colIndex) => {
-          row[colIndex + 2] = keysDict[webid][key] || row[colIndex + 2];
+          if (key != "webid") {
+            row[colIndex + 2] = keysDict[webid][key] || row[colIndex + 2];
+          }
         });
       }
     }
@@ -75,7 +77,7 @@ async function processBatch(startRow, endRow, processFunction) {
   };
 
   // 保存更新后的 Excel 文件
-  XLSX.writeFile(keysWorkbook, "./all_info.xlsx");
+  XLSX.writeFile(keysWorkbook, keysFilePath);
 }
 
 async function processAllBatches(processFunction) {
@@ -176,13 +178,13 @@ async function getWeek5(row, webid, lcd) {
 
 // 执行批处理，传入不同的业务逻辑函数
 
-processAllBatches(getJennieState).catch((error) => {
-  console.error("An error occurred:", error);
-});
-
-// processAllBatches(getAccountBalances).catch((error) => {
+// processAllBatches(getJennieState).catch((error) => {
 //   console.error("An error occurred:", error);
 // });
+
+processAllBatches(getAccountBalances).catch((error) => {
+  console.error("An error occurred:", error);
+});
 
 // processAllBatches(getWeek5).catch((error) => {
 //   console.error("An error occurred:", error);
