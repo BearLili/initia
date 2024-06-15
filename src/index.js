@@ -176,14 +176,14 @@ async function getWeek5(row, webid, lcd) {
 
 // 执行批处理，传入不同的业务逻辑函数
 
-// processAllBatches(getJennieState).catch((error) => {
-//   console.error("An error occurred:", error);
-// });
+processAllBatches(getJennieState).catch((error) => {
+  console.error("An error occurred:", error);
+});
 
 // processAllBatches(getAccountBalances).catch((error) => {
 //   console.error("An error occurred:", error);
 // });
 
-processAllBatches(getWeek5).catch((error) => {
-  console.error("An error occurred:", error);
-});
+// processAllBatches(getWeek5).catch((error) => {
+//   console.error("An error occurred:", error);
+// });

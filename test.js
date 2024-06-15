@@ -1,6 +1,4 @@
 const axios = require("axios");
-// const {HttpsProxyAgent} = require("https-proxy-agent");
-const { SocksProxyAgent } = require("socks-proxy-agent");
 const crypto = require("crypto");
 
 // OKX API密钥和私钥
@@ -58,6 +56,7 @@ async function withdraw(withdrawal) {
     });
     console.log(`Withdrawal successful: ${response.data}`);
   } catch (error) {
+    debugger;
     console.error(`Error withdrawing: ${error.response.data}`);
   }
 }
