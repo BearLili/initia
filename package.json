@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/BearLili/initia#readme",
   "dependencies": {
+    "@binance/connector": "^3.3.0",
     "@initia/initia.js": "^0.2.6",
     "axios": "^1.7.2",
     "crypto": "^1.0.1",
