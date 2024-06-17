@@ -76,12 +76,13 @@ async function processAllBatches(processFunction) {
 // 提现信息
 function withdrawalMaker(address) {
   return {
-    amt: "0.004",
+    amt: "0.0022",
     fee: "0.002",
     dest: "4",
     ccy: "BNB",
     chain: "BNB-BSC",
     toAddr: address,
+    walletType: "private",
   };
 }
 
@@ -102,12 +103,13 @@ async function withdraw(row, webid) {
     );
     return {
       webid,
+      isSuccess: response?.data?.code == "0",
     };
   } catch (err) {
     console.error(
       `Error withdrawing: ${JSON.stringify(error?.response?.data)}`
     );
-    return { webid };
+    return { webid, isSuccess: false };
   }
 }
 
