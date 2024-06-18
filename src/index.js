@@ -8,7 +8,6 @@ const {
 const XLSX = require("xlsx");
 const path = require("path");
 const fs = require("fs");
-const { queryObjects } = require("v8");
 
 // 获取绝对路径
 const keysFilePath = path.resolve(__dirname, "./../files/info_6.18.xlsx");
@@ -92,13 +91,15 @@ async function processAllBatches(processFunction) {
 // get Jennie states
 async function getJennieState(row, webid, lcd) {
   const keyword = row[1]; // 假设 keysSheet 中的关键字在第2列
+  const init_address = row[2]; // 假设 keysSheet 中的关键字在第2列
 
   const key = new MnemonicKey({
     mnemonic: keyword,
   });
 
   try {
-    const _address = bcs.address().serialize(key.accAddress).toBase64(); // arguments, BCS-encoded
+    let accAddress = key.accAddress || init_address;
+    const _address = bcs.address().serialize(accAddress).toBase64(); // arguments, BCS-encoded
     const viewResult = await lcd.move.viewFunction(
       "0x9065fda28f52bb14ade545411f02e8e07a9cb4ba",
       "jennie",
@@ -120,6 +121,7 @@ async function getJennieState(row, webid, lcd) {
 // get account balances
 async function getAccountBalances(row, webid, lcd) {
   const keyword = row[1]; // 假设 keysSheet 中的关键字在第2列
+  const init_address = row[2]; // 假设 keysSheet 中的关键字在第2列
 
   const key = new MnemonicKey({
     mnemonic: keyword,
@@ -128,7 +130,8 @@ async function getAccountBalances(row, webid, lcd) {
   const privateKey = key.privateKey.toString("hex");
   const wallet = new Wallet(lcd, key);
   try {
-    const balances = await lcd.bank.balance(wallet.accAddress);
+    let accAddress = wallet.accAddress || init_address;
+    const balances = await lcd.bank.balance(accAddress);
     let balancesArr = balances?.[0]?.["_coins"];
     let gas =
       balancesArr?.[
@@ -140,7 +143,7 @@ async function getAccountBalances(row, webid, lcd) {
       webid,
       gas: convertAmount(gas),
       init: convertAmount(init),
-      address: wallet.accAddress,
+      address_find: wallet.accAddress,
       privateKey,
     };
   } catch (err) {
@@ -161,9 +164,28 @@ async function getWeek5(row, webid, lcd) {
   try {
     // const ibcTransfer = await lcd.ibcTransfer.denomTraces();
     const ibcTransfer = await lcd.tx.search({
-      query: [{ key: "tx.height", value: this.currentHeight.toString() }],
-    });
+      query: [
+        // {
+        //   key: "sender",
+        //   value: "init1pkch6j7wvgcfp938lv20ym46n2hfkw2r6tfawz",
+        // },
+        // {
+        //   key: "tx.body.messages.sender",
+        //   value: "init1ual53gg989jf65l9hr9acr7h8z9cfmmd349sjx",
+        // },
 
+        // {
+        //   key: "tx.height",
+        //   value: "1064908",
+        // },
+
+        {
+          key: "tx.sender",
+          value: "138799",
+        },
+      ],
+    });
+    debugger;
     //
     let flag = "";
     return {
@@ -178,14 +200,14 @@ async function getWeek5(row, webid, lcd) {
 
 // 执行批处理，传入不同的业务逻辑函数
 
-processAllBatches(getJennieState).catch((error) => {
-  console.error("An error occurred:", error);
-});
+// processAllBatches(getJennieState).catch((error) => {
+//   console.error("An error occurred:", error);
+// });
 
 // processAllBatches(getAccountBalances).catch((error) => {
 //   console.error("An error occurred:", error);
 // });
 
-// processAllBatches(getWeek5).catch((error) => {
-//   console.error("An error occurred:", error);
-// });
+processAllBatches(getWeek5).catch((error) => {
+  console.error("An error occurred:", error);
+});
