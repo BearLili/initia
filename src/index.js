@@ -204,10 +204,10 @@ async function getWeek5(row, webid, lcd) {
 //   console.error("An error occurred:", error);
 // });
 
-// processAllBatches(getAccountBalances).catch((error) => {
-//   console.error("An error occurred:", error);
-// });
-
-processAllBatches(getWeek5).catch((error) => {
+processAllBatches(getAccountBalances).catch((error) => {
   console.error("An error occurred:", error);
 });
+
+// processAllBatches(getWeek5).catch((error) => {
+//   console.error("An error occurred:", error);
+// });
