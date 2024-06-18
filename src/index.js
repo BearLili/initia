@@ -11,7 +11,7 @@ const fs = require("fs");
 const { queryObjects } = require("v8");
 
 // 获取绝对路径
-const keysFilePath = path.resolve(__dirname, "./../files/info_6.15.xlsx");
+const keysFilePath = path.resolve(__dirname, "./../files/info_6.18.xlsx");
 
 if (!fs.existsSync(keysFilePath)) {
   throw new Error(`File not found: ${keysFilePath}`);
@@ -110,7 +110,7 @@ async function getJennieState(row, webid, lcd) {
     return {
       webid,
       hp: viewResult?.hp,
-      isFeed: viewResult?.update_at > 1717552800 ? true : false,
+      isFeed: viewResult?.update_at > 1718157600 ? true : false,
     };
   } catch (err) {
     return { webid };
@@ -178,13 +178,13 @@ async function getWeek5(row, webid, lcd) {
 
 // 执行批处理，传入不同的业务逻辑函数
 
-// processAllBatches(getJennieState).catch((error) => {
-//   console.error("An error occurred:", error);
-// });
-
-processAllBatches(getAccountBalances).catch((error) => {
+processAllBatches(getJennieState).catch((error) => {
   console.error("An error occurred:", error);
 });
+
+// processAllBatches(getAccountBalances).catch((error) => {
+//   console.error("An error occurred:", error);
+// });
 
 // processAllBatches(getWeek5).catch((error) => {
 //   console.error("An error occurred:", error);

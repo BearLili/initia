@@ -1,47 +1,116 @@
-const { Spot } = require("@binance/connector");
+const XLSX = require("xlsx");
+const path = require("path");
+const fs = require("fs");
+const axios = require("axios");
+const headerHandle = require("./createHeader");
 
-const apiKey =
-  "LfHU0xhDWdwRuEvEuFNweM3Aa0pTaRpWLjXtpxVxC7ByTriWId6iLNtQS0idarLT";
-const apiSecret =
-  "YFrZk5b4KxTIvJ3lWGH9wuLmVjffGSHhPDwGdv01HunpW9Y8DFqx3RckwM8muz59";
-const client = new Spot(apiKey, apiSecret);
+// 获取绝对路径
+const keysFilePath = path.resolve(__dirname, "./../files/okx/binance-bsc.xlsx");
+const outputPath = path.resolve(
+  __dirname,
+  "./../files/okx/binance-bsc-result.xlsx"
+);
 
-// Get account information
-// client.account().then(response => client.logger.log(response.data))
+if (!fs.existsSync(keysFilePath)) {
+  throw new Error(`File not found: ${keysFilePath}`);
+}
 
-// client
-//   .signRequest("GET", "/sapi/v1/capital/config/getall")
-//   .then((response) =>
-//     client.logger.log(
-//       response.data?.[3].networkList.map((i) => JSON.stringify(i))
-//     )
-//   );
+const keysWorkbook = XLSX.readFile(keysFilePath, { cellStyles: true });
+const keysSheet = keysWorkbook.Sheets[keysWorkbook.SheetNames[0]];
+const keysData = XLSX.utils.sheet_to_json(keysSheet, { header: 1 });
 
-// client
-//   .signRequest("POST", "/sapi/v1/asset/get-funding-asset", {
-//     timestamp: new Date().getTime(),
-//   })
-//   .then((response) => client.logger.log(response.data));
+const BATCH_SIZE = 10; // 每批处理200条记录
+const TOTAL_ROWS = keysData.length; // 总记录数
 
-// client
-//   .signRequest("GET", "/sapi/v1/capital/withdraw/address/list")
-//   .then((response) => client.logger.log(response.data));
+// API URL
+const baseUrl = "https://www.okx.com";
+const withdrawApiUrl = "/api/v5/asset/withdrawal";
 
-// client
-//   .signRequest("POST", "/sapi/v1/account/enableFastWithdrawSwitch", {
-//     timestamp: new Date().getTime(),
-//   })
-//   .then((response) => client.logger.log(response.data));
+async function processBatch(startRow, endRow, processFunction) {
+  const keysData_s = keysData.slice(startRow, endRow);
+  const results = await Promise.all(
+    keysData_s.map((row, index) => processFunction(row, startRow + index + 1))
+  );
 
-client
-  .signRequest("POST", "/sapi/v1/capital/withdraw/apply", {
-    coin: "USDT",
+  const keysDict = results.reduce((acc, result) => {
+    if (result) {
+      acc[result.webid] = result;
+    }
+    return acc;
+  }, {});
+
+  // 更新原有的 keysData
+  keysData.forEach((row, index) => {
+    if (index > 0) {
+      const webid = index + 1;
+      if (keysDict.hasOwnProperty(webid)) {
+        // Update row based on keysDict result
+        Object.keys(keysDict[webid]).forEach((key, colIndex) => {
+          row[colIndex + 2] = keysDict[webid][key] || row[colIndex + 2];
+        });
+      }
+    }
+  });
+
+  // 将修改后的数据转换回工作表
+  const newInitiaSheet = XLSX.utils.aoa_to_sheet(keysData);
+
+  // 保留原有的样式并替换原有的工作表
+  keysWorkbook.Sheets[keysWorkbook.SheetNames[0]] = {
+    ...newInitiaSheet,
+  };
+
+  // 保存更新后的 Excel 文件
+  XLSX.writeFile(keysWorkbook, outputPath);
+}
+
+async function processAllBatches(processFunction) {
+  for (let startRow = 1; startRow < TOTAL_ROWS; startRow += BATCH_SIZE) {
+    const endRow = Math.min(startRow + BATCH_SIZE, TOTAL_ROWS);
+    console.log(`Processing rows from ${startRow} to ${endRow - 1}`);
+    await processBatch(startRow, endRow, processFunction);
+  }
+  console.log("All batches processed.");
+}
+
+// 提现信息
+function withdrawalMaker(address) {
+  return {
+    coin: "BNB",
     walletType: 1,
     network: "BSC",
-    amount: 0.35,
-    address: "0x44888703a147927ca1e179ae3f0b7fa926080ff6",
+    amount: Math.random() * 0.005 + 0.03 + 0.0006, // amount是需要减去fee的才是实际到账数量
+    address: address,
     timestamp: new Date().getTime(),
-  })
-  .then((response) => client.logger.log(response.data));
+  };
+}
 
-//   userUniversalTransfer
+// get Jennie states
+async function withdraw(row, webid) {
+  const address = row[0]; // 第一列 地址
+  if (!address) {
+    return { webid };
+  }
+  try {
+    const response = client.signRequest(
+      "POST",
+      "/sapi/v1/capital/withdraw/apply",
+      withdrawalMaker(address)
+    );
+
+    return {
+      webid,
+      id: response?.data?.id,
+    };
+  } catch (err) {
+    console.error(
+      `Error withdrawing: ${JSON.stringify(error?.response?.data)}`
+    );
+    return { webid, isSuccess: false };
+  }
+}
+
+// 执行批处理，传入不同的业务逻辑函数
+processAllBatches(withdraw).catch((error) => {
+  console.error("An error occurred:", error);
+});

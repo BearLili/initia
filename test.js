@@ -1,90 +1,30 @@
-const axios = require("axios");
-const crypto = require("crypto");
+const XLSX = require("xlsx");
+const path = require("path");
+const fs = require("fs");
 
-// OKX API密钥和私钥
-const apiKey = "b39eb9e0-bc16-4f89-bf2b-1f2dd4fd890f";
-const secretKey = "4A0A657F9082028A1ECA489AD77CBB28";
-const passphrase = "Sd@3181940";
+// 获取绝对路径
+const keysFilePath = path.resolve(__dirname, "./info_6.17.xlsx");
 
-// API URL
-const baseUrl = "https://www.okx.com";
-const withdrawApiUrl = "/api/v5/asset/withdrawal";
-const balanceApiUrl = "/api/v5/account/balance";
-
-// 提现信息
-const withdrawals = [
-  {
-    amount: "0.025",
-    dest: "4",
-    toAddress: "0xafB8142A843E80081dcC64964eA9aE7f15a78Fb6",
-    chain: "BNB",
-  },
-  {
-    amount: "0.026",
-    dest: "4",
-    toAddress: "0x334Dd31Ca7c91c24a6aAb7A6db73B88C9C2b1841",
-    chain: "BNB",
-  },
-];
-
-// 创建请求头
-function createHeaders(requestPath, method, body = "") {
-  const timestamp = new Date().toISOString();
-  const signString = `${timestamp}${method}${requestPath}${body}`;
-  const signature = crypto
-    .createHmac("sha256", secretKey)
-    .update(signString)
-    .digest("base64");
-
-  return {
-    "OK-ACCESS-KEY": apiKey,
-    "OK-ACCESS-SIGN": signature,
-    "OK-ACCESS-TIMESTAMP": timestamp,
-    "OK-ACCESS-PASSPHRASE": passphrase,
-    "Content-Type": "application/json",
-  };
+if (!fs.existsSync(keysFilePath)) {
+  throw new Error(`File not found: ${keysFilePath}`);
 }
 
-// 执行提现请求
-async function withdraw(withdrawal) {
-  const body = JSON.stringify(withdrawal);
-  const headers = createHeaders(withdrawApiUrl, "POST", body);
+const keysWorkbook = XLSX.readFile(keysFilePath, { cellStyles: true });
+const keysSheet = keysWorkbook.Sheets[keysWorkbook.SheetNames[0]];
+const keysData = XLSX.utils.sheet_to_json(keysSheet, { header: 1 });
 
-  try {
-    const response = await axios.post(`${baseUrl}${withdrawApiUrl}`, body, {
-      headers,
-    });
-    console.log(`Withdrawal successful: ${response.data}`);
-  } catch (error) {
-    debugger;
-    console.error(`Error withdrawing: ${error.response.data}`);
-  }
+const strArray1 = Array.from({ length: 1160 }, (_, index) => index + 1);
+const strArray2 = keysData.map((row, index) => {
+  return row[0];
+});
+
+function removeItems(arr1, arr2) {
+  return arr1.filter((item) => !arr2.includes(item));
 }
 
-// 执行多个提现
-async function executeWithdrawals() {
-  for (const withdrawal of withdrawals) {
-    await withdraw(withdrawal);
-  }
-}
+const resultArray = removeItems(strArray1, strArray2);
 
-// 执行GET请求获取账户余额
-async function getBalance() {
-  const headers = createHeaders(balanceApiUrl, "GET");
-
-  try {
-    console.log(`${baseUrl}${balanceApiUrl}`);
-    const response = await axios.get(`${baseUrl}${balanceApiUrl}`, {
-      headers,
-    });
-    console.log(`Account balance: ${JSON.stringify(response.data)}`);
-  } catch (error) {
-    console.error(`Error fetching balance: ${error.response.data}`);
-  }
-}
-
-// 开始执行获取账户余额
-getBalance();
-
-// 开始执行提现
-// executeWithdrawals();
+// 记录结果到日志文件
+const logFile = path.resolve(__dirname, "./webId.txt");
+const logStream = fs.createWriteStream(logFile, { flags: "a" });
+logStream.write(resultArray.join(","));

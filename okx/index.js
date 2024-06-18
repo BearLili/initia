@@ -76,7 +76,7 @@ async function processAllBatches(processFunction) {
 // 提现信息
 function withdrawalMaker(address) {
   return {
-    amt: "0.0022",
+    amt: `${Math.random() * 0.005 + 0.03}`,
     fee: "0.002",
     dest: "4",
     ccy: "BNB",
