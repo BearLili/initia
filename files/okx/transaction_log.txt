@@ -79,3 +79,43 @@
 2024-06-19T10:04:59.085Z - successful - To: 0x858ad2bb0444878Eb01db668b6a556B849885d9A, body: {"code":"0","data":[{"amt":"0.02866","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207525456"}],"msg":""}
 2024-06-19T10:08:50.063Z - successful - To: 0x7F8a72935426FC967E41Cf17C080c0F8C7C7f9f1, body: {"code":"0","data":[{"amt":"0.02765","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207526521"}],"msg":""}
 
+2024-06-19T11:08:30.173Z - successful - To: 0x74De23AA802E8AF4118acDfCCa3a444f751076A8, body: {"code":"0","data":[{"amt":"0.02631","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207543544"}],"msg":""}
+2024-06-19T11:11:49.802Z - successful - To: 0xA56664BA49b102520d64b564e96f93E99463893E, body: {"code":"0","data":[{"amt":"0.02862","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207544506"}],"msg":""}
+2024-06-19T11:15:32.831Z - successful - To: 0x56a49Ed0906c0f41Ef27A584c7462e8E6eb452d3, body: {"code":"0","data":[{"amt":"0.02938","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207545588"}],"msg":""}
+2024-06-19T11:19:03.738Z - successful - To: 0x45cE12f6b51487331Fb66b573B85952102314fF1, body: {"code":"0","data":[{"amt":"0.02857","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207546569"}],"msg":""}
+2024-06-19T11:21:10.253Z - successful - To: 0x88F4cF2ad0C4fE63315fe690F31A9aaf0436f684, body: {"code":"0","data":[{"amt":"0.03035","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207547203"}],"msg":""}
+2024-06-19T11:23:20.096Z - successful - To: 0x6D71c08Cf9cf0a2C0678a320e8A1466fcd501a38, body: {"code":"0","data":[{"amt":"0.02683","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207547848"}],"msg":""}
+2024-06-19T11:25:48.781Z - successful - To: 0x5014888514DcCb30D7046E8CEA0087c058868597, body: {"code":"0","data":[{"amt":"0.02569","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207548569"}],"msg":""}
+2024-06-19T11:31:46.644Z - successful - To: 0xd891049081967DF1005A7BF7Ec358931f8F316d1, body: {"code":"0","data":[{"amt":"0.02860","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207550225"}],"msg":""}
+2024-06-19T11:34:19.722Z - successful - To: 0xB26d931A5F4DE74D2b3F9a46C9900648Cd7A4e53, body: {"code":"0","data":[{"amt":"0.02765","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207550975"}],"msg":""}
+2024-06-19T11:37:27.846Z - successful - To: 0x3a05175A485335A26C040033b3B0846fF57b1cc5, body: {"code":"0","data":[{"amt":"0.02947","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207551872"}],"msg":""}
+2024-06-19T11:40:04.711Z - successful - To: 0x85a65EA0c6ED3f68675323bC0f3d86868FC027ab, body: {"code":"0","data":[{"amt":"0.02700","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207552601"}],"msg":""}
+2024-06-19T11:43:54.416Z - successful - To: 0xc2782A5A28383E8f8F116c288F7A0131DE113338, body: {"code":"0","data":[{"amt":"0.02963","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207553741"}],"msg":""}
+2024-06-19T11:47:04.735Z - successful - To: 0xb1022f49B00913aBF24197B6ab250B1111a8B00b, body: {"code":"0","data":[{"amt":"0.03036","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207554677"}],"msg":""}
+2024-06-19T11:49:30.892Z - successful - To: 0x4EF7CdD89AFaEda4dB89dEf7da025FFe589414d1, body: {"code":"0","data":[{"amt":"0.02743","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207555425"}],"msg":""}
+2024-06-19T11:52:53.659Z - successful - To: 0xa59Fd508Ee3790120F58A2C5f48A39a59730Bb91, body: {"code":"0","data":[{"amt":"0.02879","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207556490"}],"msg":""}
+2024-06-19T11:56:53.676Z - successful - To: 0x6661d5f856cc82e69391746b86BE2d161b382451, body: {"code":"0","data":[{"amt":"0.02650","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207557696"}],"msg":""}
+2024-06-19T11:59:27.273Z - successful - To: 0xE07b963Eb34aF4041efB89892E5fb9d5F46cc26E, body: {"code":"0","data":[{"amt":"0.02944","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207558520"}],"msg":""}
+2024-06-19T12:02:06.709Z - successful - To: 0x4035b33Fd4B57adFB5ee6407768CC179933668F5, body: {"code":"0","data":[{"amt":"0.03045","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207559407"}],"msg":""}
+2024-06-19T12:04:49.307Z - successful - To: 0xFF71E628762C50EF909317620F994de6f1b4aB9E, body: {"code":"0","data":[{"amt":"0.02942","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207560235"}],"msg":""}
+2024-06-19T12:07:43.773Z - successful - To: 0x823e73cAD84C3694a04A1C01C5d7db345abf3B31, body: {"code":"0","data":[{"amt":"0.03019","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207561075"}],"msg":""}
+2024-06-19T12:18:05.308Z - successful - To: 0x053a24f6B2936f59625aa7B4f6D7E6637818a000, body: {"code":"0","data":[{"amt":"0.02528","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207564246"}],"msg":""}
+2024-06-19T12:21:08.726Z - successful - To: 0x9432474108b205eBABe066B90E7EcAcBC8EDcFE0, body: {"code":"0","data":[{"amt":"0.02770","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207565227"}],"msg":""}
+2024-06-19T12:24:42.641Z - successful - To: 0xfc0c7EeBE44Cc8AdD1a502cA442045EBd19E72A4, body: {"code":"0","data":[{"amt":"0.02934","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207566339"}],"msg":""}
+2024-06-19T12:28:34.973Z - successful - To: 0x2AbE31e7BAd2fd839a5d46669E1BC8DF469b4FeB, body: {"code":"0","data":[{"amt":"0.02691","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207567605"}],"msg":""}
+2024-06-19T12:32:02.863Z - successful - To: 0x9B62e4BFc2C7c39696D72d77D31438B604d73374, body: {"code":"0","data":[{"amt":"0.02578","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207568697"}],"msg":""}
+2024-06-19T12:34:54.712Z - successful - To: 0x5f5cb15F0D0acc0bA4D67e762149d80DDC24ca4D, body: {"code":"0","data":[{"amt":"0.02784","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207569604"}],"msg":""}
+2024-06-19T12:37:33.019Z - successful - To: 0x5033c5C88e6A746D76892e35eb2607F12635f677, body: {"code":"0","data":[{"amt":"0.02673","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207570448"}],"msg":""}
+2024-06-19T12:40:21.905Z - successful - To: 0x77f4d8bd84DFF7DeE2dFF2C5Ee16aa3fB7dBF08e, body: {"code":"0","data":[{"amt":"0.02567","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207571381"}],"msg":""}
+2024-06-19T12:43:25.994Z - successful - To: 0x86952412F3E35B9518AA738805F1447Cc85E6e8B, body: {"code":"0","data":[{"amt":"0.02800","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207572367"}],"msg":""}
+2024-06-19T12:46:54.341Z - successful - To: 0x132E96e9d0bcD9c4363943ab2bC0092bD21bf7EE, body: {"code":"0","data":[{"amt":"0.02582","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207573494"}],"msg":""}
+2024-06-19T12:49:53.921Z - successful - To: 0x9148F15169ace7bF92B8c78807D1B3E02076fD6e, body: {"code":"0","data":[{"amt":"0.02600","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207574444"}],"msg":""}
+2024-06-19T12:52:03.024Z - successful - To: 0xDE1a939c0802dc9855650907aDFd0F6269186825, body: {"code":"0","data":[{"amt":"0.03037","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207575145"}],"msg":""}
+2024-06-19T12:54:38.984Z - successful - To: 0x53b14e1705E185A4EC324efD887bbe7533a8350C, body: {"code":"0","data":[{"amt":"0.02945","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207575948"}],"msg":""}
+2024-06-19T12:57:20.876Z - successful - To: 0x8118656b463D7837062880F8fe158C11e9555942, body: {"code":"0","data":[{"amt":"0.02778","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207576820"}],"msg":""}
+2024-06-19T12:59:37.890Z - successful - To: 0x0D9670d78730895F1Fc15cb747C3926b6117D2A8, body: {"code":"0","data":[{"amt":"0.03043","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207577526"}],"msg":""}
+
+
+2024-06-19T13:20:57.204Z - fail - To: 0x1dAD09c5d68E532D48aD74672e8ba701Fd9746e9, body: {"code":"5605","data":[],"msg":"To protect your assets, you're temporarily unable to withdraw crypto. Check the email you linked to OKX and keep your phone on, customer support will contact you soon."}
+2024-06-19T13:23:32.036Z - fail - To: 0x1dAD09c5d68E532D48aD74672e8ba701Fd9746e9, body: {"code":"5605","data":[],"msg":"To protect your assets, you're temporarily unable to withdraw crypto. Check the email you linked to OKX and keep your phone on, customer support will contact you soon."}
+2024-06-19T13:51:58.845Z - fail - To: 0x1dAD09c5d68E532D48aD74672e8ba701Fd9746e9, body: {"code":"5605","data":[],"msg":"To protect your assets, you're temporarily unable to withdraw crypto. Check the email you linked to OKX and keep your phone on, customer support will contact you soon."}
