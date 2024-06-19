@@ -1,0 +1,21 @@
+2024-06-19T01:36:59.165Z - successful - To: 0x6d7B4CE9F77aD81C093A37e6E56C2e39634001cd, body: {"code":"0","data":[{"amt":"0.029","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207402736"}],"msg":""}
+2024-06-19T01:37:31.739Z - successful - To: 0xa1F207df57bb250a4E170Ad58d11F59D8C4518Cf, body: {"code":"0","data":[{"amt":"0.030","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207402857"}],"msg":""}
+2024-06-19T01:38:14.181Z - successful - To: 0xdA96cA072ABE95aB4466f062A0463827dc2FdA01, body: {"code":"0","data":[{"amt":"0.034","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207403012"}],"msg":""}
+2024-06-19T01:38:42.097Z - successful - To: 0x1A085D10707b6839Eedda3f61720d931282ccCcE, body: {"code":"0","data":[{"amt":"0.030","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207403115"}],"msg":""}
+2024-06-19T01:39:25.885Z - successful - To: 0xfc574d4299C1E7a6fEE784aa7BBe08f04314f3d0, body: {"code":"0","data":[{"amt":"0.032","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207403250"}],"msg":""}
+2024-06-19T01:40:22.306Z - successful - To: 0x5a325a8BACDfB776deF610F64718Ba1dC163222C, body: {"code":"0","data":[{"amt":"0.032","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207403466"}],"msg":""}
+2024-06-19T01:41:22.830Z - successful - To: 0x0eFEd0B20CF296cbd8fd0FDc646b74B9A7904A84, body: {"code":"0","data":[{"amt":"0.033","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207403688"}],"msg":""}
+2024-06-19T01:41:40.633Z - successful - To: 0x4b25849d81C6AB2AC8De6CBE3B188513dCd504C7, body: {"code":"0","data":[{"amt":"0.031","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207403749"}],"msg":""}
+2024-06-19T01:42:29.598Z - successful - To: 0x04990715979D9B9075004FD7662ABc85481d71D9, body: {"code":"0","data":[{"amt":"0.029","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207403933"}],"msg":""}
+2024-06-19T01:42:58.460Z - successful - To: 0x6E14fe1E1cb73d8C7c64519698911B8F55824c88, body: {"code":"0","data":[{"amt":"0.031","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207404035"}],"msg":""}
+2024-06-19T02:08:32.722Z - successful - To: 0xB726cc6490b17e07984Ab1818D1BB6b56a7447E1, body: {"code":"0","data":[{"amt":"0.03088","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207409652"}],"msg":""}
+2024-06-19T02:10:52.820Z - successful - To: 0xd0408bb86D74A2605C9D3416EE3Bd10e95580729, body: {"code":"0","data":[{"amt":"0.03029","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207410162"}],"msg":""}
+2024-06-19T02:12:45.304Z - successful - To: 0x491A46F8D923734925F2B068a76cA39c70893E84, body: {"code":"0","data":[{"amt":"0.03165","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207410565"}],"msg":""}
+2024-06-19T02:14:48.951Z - successful - To: 0x310718fDfcd6B020A5837031CCd2e81AEecf3F14, body: {"code":"0","data":[{"amt":"0.03210","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207411029"}],"msg":""}
+2024-06-19T02:17:00.652Z - successful - To: 0x250c305B0F91D069C072B8A1D89Db8Da5eD49B87, body: {"code":"0","data":[{"amt":"0.03187","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207411503"}],"msg":""}
+2024-06-19T02:17:59.545Z - successful - To: 0xC3A0aEce06941F5C2C73CCbc1A9f7Cc0cf2A856b, body: {"code":"0","data":[{"amt":"0.03454","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207411712"}],"msg":""}
+2024-06-19T02:18:58.167Z - successful - To: 0x8eE8D046cfe87A806345f6B45374507C34EC6e32, body: {"code":"0","data":[{"amt":"0.02975","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207411928"}],"msg":""}
+2024-06-19T02:20:58.442Z - successful - To: 0xe8cD6e8a7d51F21017bD90cE1611845D322dE542, body: {"code":"0","data":[{"amt":"0.03059","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207412367"}],"msg":""}
+2024-06-19T02:22:42.610Z - successful - To: 0xc350bedcB41732B5dCDc6ec5b06782Ea945C3d4a, body: {"code":"0","data":[{"amt":"0.02850","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207412746"}],"msg":""}
+2024-06-19T02:24:12.201Z - successful - To: 0xE933298ECe2a762D4D20C4a04C9270eF4dB47c0E, body: {"code":"0","data":[{"amt":"0.03414","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207413079"}],"msg":""}
+

@@ -4,28 +4,31 @@ const fs = require("fs");
 const axios = require("axios");
 const headerHandle = require("./createHeader");
 
-// 获取绝对路径
-const keysFilePath = path.resolve(__dirname, "./../files/okx/okx-bsc.xlsx");
+// 常量定义
+const KEYS_FILE_PATH = path.resolve(__dirname, "./../files/okx/okx-bsc.xlsx");
+const LOG_FILE_PATH = path.resolve(
+  __dirname,
+  `./../files/okx/transaction_log.txt`
+);
+const BASE_URL = "https://www.okx.com";
+const WITHDRAW_API_URL = "/api/v5/asset/withdrawal";
 
-// 定义日志文件
-const logFile = path.resolve(__dirname, "./../transaction_log.txt");
-
-if (!fs.existsSync(keysFilePath)) {
-  throw new Error(`File not found: ${keysFilePath}`);
+// 检查文件是否存在
+if (!fs.existsSync(KEYS_FILE_PATH)) {
+  throw new Error(`File not found: ${KEYS_FILE_PATH}`);
 }
 
-const keysWorkbook = XLSX.readFile(keysFilePath, { cellStyles: true });
+// 读取 Excel 文件
+const keysWorkbook = XLSX.readFile(KEYS_FILE_PATH, { cellStyles: true });
 const keysSheet = keysWorkbook.Sheets[keysWorkbook.SheetNames[0]];
 const keysData = XLSX.utils.sheet_to_json(keysSheet, { header: 1 });
 
-// API URL
-const baseUrl = "https://www.okx.com";
-const withdrawApiUrl = "/api/v5/asset/withdrawal";
+// 提现信息生成函数
+function createWithdrawalInfo(address) {
+  const amt = (0.028 + Math.random() * (0.035 - 0.028)).toFixed(5); // 生成0.028到0.035之间的随机数并保留3位小数
 
-// 提现信息
-function withdrawalMaker(address) {
   return {
-    amt: `${Math.random() * 0.005}`,
+    amt,
     fee: "0.002",
     dest: "4",
     ccy: "BNB",
@@ -35,53 +38,54 @@ function withdrawalMaker(address) {
   };
 }
 
-// get Jennie states
-async function withdraw(keysData, webid = 0) {
-  if (webid >= keysData.length) {
-    return;
-  }
+// 记录日志函数
+async function logTransaction(status, address, response = {}) {
+  const logMessage = `${new Date().toISOString()} - ${status} - To: ${address}, body: ${JSON.stringify(
+    response
+  )}\n`;
+  await fs.promises.appendFile(LOG_FILE_PATH, logMessage);
+}
 
-  // 记录结果到日志文件
-  const logStream = fs.createWriteStream(logFile, { flags: "a" });
-  const address = keysData[webid][0]; // 第一列 地址
+// 提现函数
+async function processWithdrawal(keysData, index = 0) {
+  const address = keysData[index][0]; // 第一列为地址
+  let response;
   try {
-    const body = JSON.stringify(withdrawalMaker(address));
-    const headers = headerHandle.createHeaders(withdrawApiUrl, "POST", body);
-    const response = await axios.post(`${baseUrl}${withdrawApiUrl}`, body, {
+    console.info(`第${index + 1}行地址开始转账...`);
+    const body = JSON.stringify(createWithdrawalInfo(address));
+    const headers = headerHandle.createHeaders(WITHDRAW_API_URL, "POST", body);
+    response = await axios.post(`${BASE_URL}${WITHDRAW_API_URL}`, body, {
       headers,
     });
-    if (response.data.code == "0") {
+
+    if (response.data.code === "0") {
       console.info(
-        `Withdrawal successful--${
-          address + ":" + JSON.stringify(response.data)
-        }`
+        `Withdrawal successful: ${address} - ${JSON.stringify(response.data)}`
       );
-      logStream.write(
-        `${new Date().toISOString()} - ${"successful"} - To: ${address}, body: ${
-          response.data
-        }\n`
-      );
-      logStream.end();
+      await logTransaction("successful", address, response.data);
     } else {
       console.error(`Error withdrawing: ${JSON.stringify(response.data)}`);
-      logStream.write(
-        `${new Date().toISOString()} - ${"fail"} - To: ${address}, body: ${
-          response.data
-        }\n`
-      );
-      logStream.end();
+      await logTransaction("fail", address, response.data);
     }
-
-    setTimeout(() => withdraw(keysData, webid + 1), 5000 * Math.random());
   } catch (error) {
-    console.error(`Error withdrawing: ${JSON.stringify(error)}`);
-    logStream.write(
-      `${new Date().toISOString()} - ${"fail"} - To: ${address}\n`
-    );
-    logStream.end();
+    console.error(`Error withdrawing: ${error.message}`);
+    await logTransaction("fail", address, { error: error.message });
+  }
 
-    setTimeout(() => withdraw(keysData, webid + 1), 5000 * Math.random() + 8000);
+  if (index < keysData.length) {
+    // 随机延迟后处理下一个提现
+    const delay = 70000 + Math.random() * 130000;
+    console.info(
+      `第${index + 1}行转账结束吗，下一次将在${parseInt(
+        delay / 1000
+      )}秒后开始执行\n`
+    );
+    setTimeout(() => processWithdrawal(keysData, index + 1), delay);
+  } else {
+    console.info(`第${index + 1}行转账结束吗，全部结束！\n`);
+    return;
   }
 }
 
-withdraw(keysData);
+// 开始提现过程
+processWithdrawal(keysData);
