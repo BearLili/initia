@@ -74,7 +74,7 @@ async function processWithdrawal(keysData, index = 0) {
 
   if (index + 1 < keysData.length) {
     // 随机延迟后处理下一个提现
-    const delay = 180000 + Math.random() * 180000;
+    const delay = 120000 + Math.random() * 120000;
     console.info(
       `第${index + 1}行转账结束，下一次将在${parseInt(
         delay / 1000

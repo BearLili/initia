@@ -78,3 +78,4 @@
 2024-06-19T10:00:07.047Z - successful - To: 0x29750B0628929b8f832dA7D45C2AEc8aE512b708, body: {"code":"0","data":[{"amt":"0.02779","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207524070"}],"msg":""}
 2024-06-19T10:04:59.085Z - successful - To: 0x858ad2bb0444878Eb01db668b6a556B849885d9A, body: {"code":"0","data":[{"amt":"0.02866","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207525456"}],"msg":""}
 2024-06-19T10:08:50.063Z - successful - To: 0x7F8a72935426FC967E41Cf17C080c0F8C7C7f9f1, body: {"code":"0","data":[{"amt":"0.02765","ccy":"BNB","chain":"BNB-BSC","clientId":"","wdId":"207526521"}],"msg":""}
+
