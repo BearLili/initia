@@ -10,7 +10,7 @@ const path = require("path");
 const fs = require("fs");
 
 // 获取绝对路径
-const keysFilePath = path.resolve(__dirname, "./../files/info_6.18.xlsx");
+const keysFilePath = path.resolve(__dirname, "./../files/info_6.19.xlsx");
 
 if (!fs.existsSync(keysFilePath)) {
   throw new Error(`File not found: ${keysFilePath}`);

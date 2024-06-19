@@ -25,7 +25,7 @@ const keysData = XLSX.utils.sheet_to_json(keysSheet, { header: 1 });
 
 // 提现信息生成函数
 function createWithdrawalInfo(address) {
-  const amt = (0.028 + Math.random() * (0.035 - 0.028)).toFixed(5); // 生成0.028到0.035之间的随机数并保留3位小数
+  const amt = (0.025 + Math.random() * (0.0305 - 0.025)).toFixed(5); // 生成0.028到0.035之间的随机数并保留3位小数
 
   return {
     amt,
@@ -72,17 +72,17 @@ async function processWithdrawal(keysData, index = 0) {
     await logTransaction("fail", address, { error: error.message });
   }
 
-  if (index < keysData.length) {
+  if (index + 1 < keysData.length) {
     // 随机延迟后处理下一个提现
-    const delay = 70000 + Math.random() * 130000;
+    const delay = 180000 + Math.random() * 180000;
     console.info(
-      `第${index + 1}行转账结束吗，下一次将在${parseInt(
+      `第${index + 1}行转账结束，下一次将在${parseInt(
         delay / 1000
       )}秒后开始执行\n`
     );
     setTimeout(() => processWithdrawal(keysData, index + 1), delay);
   } else {
-    console.info(`第${index + 1}行转账结束吗，全部结束！\n`);
+    console.info(`第${index + 1}行转账结束，全部结束！\n`);
     return;
   }
 }
