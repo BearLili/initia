@@ -25,14 +25,15 @@ const keysData = XLSX.utils.sheet_to_json(keysSheet, { header: 1 });
 
 // 提现信息生成函数
 function createWithdrawalInfo(address) {
-  const amt = (14.2 + Math.random() * (15.2 - 14.2)).toFixed(4); // 生成14.2到15.2之间的随机数并保留4位小数
+  const amt = (1 + Math.random() * 0.2).toFixed(4); // 生成14.2到15.2之间的随机数并保留4位小数
 
   return {
     amt,
-    fee: "0.22",
+    fee: "0.8",
     dest: "4",
     ccy: "USDT",
-    chain: "USDT-Avalanche C-Chain",
+    // chain: "USDT-Avalanche C-Chain",
+    chain: "USDT-Arbitrum One",
     toAddr: address,
     walletType: "private",
   };
@@ -74,7 +75,7 @@ async function processWithdrawal(keysData, index = 0) {
 
   if (index + 1 < keysData.length) {
     // 随机延迟后处理下一个提现
-    const delay = 60000 + Math.random() * 60000;
+    const delay = 90000 + Math.random() * 60000;
     console.info(
       `第${index + 1}行转账结束，下一次将在${parseInt(
         delay / 1000
