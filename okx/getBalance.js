@@ -4,7 +4,7 @@ const headerHandle = require("./createHeader");
 // API URL
 const baseUrl = "https://www.okx.com";
 // const balanceApiUrl = "/api/v5/asset/balances";
-const balanceApiUrl = "/api/v5/asset/currencies?ccy=BNB"
+const balanceApiUrl = "/api/v5/asset/currencies?ccy=USDT"
 
 
 // 执行GET请求获取账户余额

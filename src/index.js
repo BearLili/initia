@@ -10,7 +10,7 @@ const path = require("path");
 const fs = require("fs");
 
 // 获取绝对路径
-const keysFilePath = path.resolve(__dirname, "./../files/info_6.19.xlsx");
+const keysFilePath = path.resolve(__dirname, "./../files/info_6.26.xlsx");
 
 if (!fs.existsSync(keysFilePath)) {
   throw new Error(`File not found: ${keysFilePath}`);
@@ -111,7 +111,7 @@ async function getJennieState(row, webid, lcd) {
     return {
       webid,
       hp: viewResult?.hp,
-      isFeed: viewResult?.update_at > 1718157600 ? true : false,
+      isFeed: viewResult?.update_at > 1718762400 ? true : false,
     };
   } catch (err) {
     return { webid };
@@ -123,12 +123,15 @@ async function getAccountBalances(row, webid, lcd) {
   const keyword = row[1]; // 假设 keysSheet 中的关键字在第2列
   const init_address = row[2]; // 假设 keysSheet 中的关键字在第2列
 
-  const key = new MnemonicKey({
-    mnemonic: keyword,
-  });
+  const key =
+    (keyword &&
+      new MnemonicKey({
+        mnemonic: keyword,
+      })) ||
+    "";
 
-  const privateKey = key.privateKey.toString("hex");
-  const wallet = new Wallet(lcd, key);
+  // const privateKey = key.privateKey.toString("hex");
+  const wallet = (key && new Wallet(lcd, key)) || {};
   try {
     let accAddress = wallet.accAddress || init_address;
     const balances = await lcd.bank.balance(accAddress);
@@ -143,8 +146,8 @@ async function getAccountBalances(row, webid, lcd) {
       webid,
       gas: convertAmount(gas),
       init: convertAmount(init),
-      address_find: wallet.accAddress,
-      privateKey,
+      // address_find: wallet.accAddress,
+      // privateKey,
     };
   } catch (err) {
     return { webid };

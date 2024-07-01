@@ -24,6 +24,7 @@
     "express": "^4.19.2",
     "http-proxy-middleware": "^3.0.0",
     "https-proxy-agent": "^7.0.4",
+    "playwright": "^1.44.1",
     "socks-proxy-agent": "^8.0.3",
     "xlsx": "^0.18.5"
   }

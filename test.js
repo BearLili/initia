@@ -1,30 +1,23 @@
-const XLSX = require("xlsx");
-const path = require("path");
-const fs = require("fs");
+const {
+  Wallet,
+  LCDClient,
+  MnemonicKey,
+  bcs,
+  TxAPI,
+} = require("@initia/initia.js");
 
-// 获取绝对路径
-const keysFilePath = path.resolve(__dirname, "./info_6.17.xlsx");
+// Base64 编码的字符串
+const base64String = '8zoeAAAAAAA=';
 
-if (!fs.existsSync(keysFilePath)) {
-  throw new Error(`File not found: ${keysFilePath}`);
+// 解码为 Buffer
+const buffer = Buffer.from(base64String, 'base64');
+
+// 检查 buffer 的长度是否为 8 字节（64 位）
+if (buffer.length !== 8) {
+  throw new Error('Invalid buffer length for u64');
 }
 
-const keysWorkbook = XLSX.readFile(keysFilePath, { cellStyles: true });
-const keysSheet = keysWorkbook.Sheets[keysWorkbook.SheetNames[0]];
-const keysData = XLSX.utils.sheet_to_json(keysSheet, { header: 1 });
+// 读取无符号 64 位整数（小端字节序）
+const u64 = buffer.readBigUInt64LE(0);
 
-const strArray1 = Array.from({ length: 1160 }, (_, index) => index + 1);
-const strArray2 = keysData.map((row, index) => {
-  return row[0];
-});
-
-function removeItems(arr1, arr2) {
-  return arr1.filter((item) => !arr2.includes(item));
-}
-
-const resultArray = removeItems(strArray1, strArray2);
-
-// 记录结果到日志文件
-const logFile = path.resolve(__dirname, "./webId.txt");
-const logStream = fs.createWriteStream(logFile, { flags: "a" });
-logStream.write(resultArray.join(","));
+console.log(u64.toString()); //
