@@ -10,7 +10,11 @@ const path = require("path");
 const fs = require("fs");
 
 // 获取绝对路径
-const keysFilePath = path.resolve(__dirname, "./../files/info_6.19.xlsx");
+const keysFilePath = path.resolve(__dirname, "./../files/info_7.2.xlsx");
+let output = path.resolve(
+  __dirname,
+  `./../files/info_${new Date().getTime()}.xlsx`
+);
 
 if (!fs.existsSync(keysFilePath)) {
   throw new Error(`File not found: ${keysFilePath}`);
@@ -76,7 +80,7 @@ async function processBatch(startRow, endRow, processFunction) {
   };
 
   // 保存更新后的 Excel 文件
-  XLSX.writeFile(keysWorkbook, keysFilePath);
+  XLSX.writeFile(keysWorkbook, path.resolve(__dirname, output));
 }
 
 async function processAllBatches(processFunction) {
@@ -98,7 +102,7 @@ async function getJennieState(row, webid, lcd) {
   });
 
   try {
-    let accAddress = key.accAddress || init_address;
+    let accAddress = (keyword && key.accAddress) || init_address;
     const _address = bcs.address().serialize(accAddress).toBase64(); // arguments, BCS-encoded
     const viewResult = await lcd.move.viewFunction(
       "0x9065fda28f52bb14ade545411f02e8e07a9cb4ba",
@@ -111,10 +115,10 @@ async function getJennieState(row, webid, lcd) {
     return {
       webid,
       hp: viewResult?.hp,
-      isFeed: viewResult?.update_at > 1718157600 ? true : false,
+      isFeed: viewResult?.update_at > 1719367200 ? true : false,
     };
   } catch (err) {
-    return { webid };
+    return { webid, hp: 0, isFeed: false };
   }
 }
 
@@ -130,7 +134,7 @@ async function getAccountBalances(row, webid, lcd) {
   const privateKey = key.privateKey.toString("hex");
   const wallet = new Wallet(lcd, key);
   try {
-    let accAddress = wallet.accAddress || init_address;
+    let accAddress = (keyword && wallet.accAddress) || init_address;
     const balances = await lcd.bank.balance(accAddress);
     let balancesArr = balances?.[0]?.["_coins"];
     let gas =
@@ -143,8 +147,8 @@ async function getAccountBalances(row, webid, lcd) {
       webid,
       gas: convertAmount(gas),
       init: convertAmount(init),
-      address_find: wallet.accAddress,
-      privateKey,
+      // address_find: wallet.accAddress,
+      // privateKey,
     };
   } catch (err) {
     return { webid };
@@ -200,13 +204,13 @@ async function getWeek5(row, webid, lcd) {
 
 // 执行批处理，传入不同的业务逻辑函数
 
-// processAllBatches(getJennieState).catch((error) => {
-//   console.error("An error occurred:", error);
-// });
-
-processAllBatches(getAccountBalances).catch((error) => {
+processAllBatches(getJennieState).catch((error) => {
   console.error("An error occurred:", error);
 });
+
+// processAllBatches(getAccountBalances).catch((error) => {
+//   console.error("An error occurred:", error);
+// });
 
 // processAllBatches(getWeek5).catch((error) => {
 //   console.error("An error occurred:", error);
