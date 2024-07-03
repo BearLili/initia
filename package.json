@@ -26,6 +26,10 @@
     "express": "^4.19.2",
     "http-proxy-middleware": "^3.0.0",
     "https-proxy-agent": "^7.0.4",
+    "mathjs": "^13.0.1",
+    "playwright": "^1.44.1",
+    "plotly.js-dist-min": "^2.33.0",
+    "react-plotly": "^1.0.0",
     "socks-proxy-agent": "^8.0.3",
     "xlsx": "^0.18.5"
   }

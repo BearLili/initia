@@ -1,116 +1,94 @@
 const XLSX = require("xlsx");
 const path = require("path");
 const fs = require("fs");
-const axios = require("axios");
-const headerHandle = require("./createHeader");
 
-// 获取绝对路径
-const keysFilePath = path.resolve(__dirname, "./../files/okx/binance-bsc.xlsx");
-const outputPath = path.resolve(
+// 常量定义
+const KEYS_FILE_PATH = path.resolve(
   __dirname,
-  "./../files/okx/binance-bsc-result.xlsx"
+  "./../files/binance/bn-to-exchange.xlsx"
+);
+const LOG_FILE_PATH = path.resolve(
+  __dirname,
+  `./../files/binance/transaction_log.txt`
 );
 
-if (!fs.existsSync(keysFilePath)) {
-  throw new Error(`File not found: ${keysFilePath}`);
+// 检查文件是否存在
+if (!fs.existsSync(KEYS_FILE_PATH)) {
+  throw new Error(`File not found: ${KEYS_FILE_PATH}`);
 }
 
-const keysWorkbook = XLSX.readFile(keysFilePath, { cellStyles: true });
+// 读取 Excel 文件
+const keysWorkbook = XLSX.readFile(KEYS_FILE_PATH, { cellStyles: true });
 const keysSheet = keysWorkbook.Sheets[keysWorkbook.SheetNames[0]];
 const keysData = XLSX.utils.sheet_to_json(keysSheet, { header: 1 });
 
-const BATCH_SIZE = 10; // 每批处理200条记录
-const TOTAL_ROWS = keysData.length; // 总记录数
-
-// API URL
-const baseUrl = "https://www.okx.com";
-const withdrawApiUrl = "/api/v5/asset/withdrawal";
-
-async function processBatch(startRow, endRow, processFunction) {
-  const keysData_s = keysData.slice(startRow, endRow);
-  const results = await Promise.all(
-    keysData_s.map((row, index) => processFunction(row, startRow + index + 1))
-  );
-
-  const keysDict = results.reduce((acc, result) => {
-    if (result) {
-      acc[result.webid] = result;
-    }
-    return acc;
-  }, {});
-
-  // 更新原有的 keysData
-  keysData.forEach((row, index) => {
-    if (index > 0) {
-      const webid = index + 1;
-      if (keysDict.hasOwnProperty(webid)) {
-        // Update row based on keysDict result
-        Object.keys(keysDict[webid]).forEach((key, colIndex) => {
-          row[colIndex + 2] = keysDict[webid][key] || row[colIndex + 2];
-        });
-      }
-    }
-  });
-
-  // 将修改后的数据转换回工作表
-  const newInitiaSheet = XLSX.utils.aoa_to_sheet(keysData);
-
-  // 保留原有的样式并替换原有的工作表
-  keysWorkbook.Sheets[keysWorkbook.SheetNames[0]] = {
-    ...newInitiaSheet,
-  };
-
-  // 保存更新后的 Excel 文件
-  XLSX.writeFile(keysWorkbook, outputPath);
-}
-
-async function processAllBatches(processFunction) {
-  for (let startRow = 1; startRow < TOTAL_ROWS; startRow += BATCH_SIZE) {
-    const endRow = Math.min(startRow + BATCH_SIZE, TOTAL_ROWS);
-    console.log(`Processing rows from ${startRow} to ${endRow - 1}`);
-    await processBatch(startRow, endRow, processFunction);
-  }
-  console.log("All batches processed.");
-}
-
-// 提现信息
-function withdrawalMaker(address) {
+// 提现信息生成函数
+function createWithdrawalInfo(address) {
+  const amt = (0.026 + Math.random() * (0.0305 - 0.026)).toFixed(5); // 生成0.026到0.0305之间的随机数并保留3位小数
   return {
-    coin: "BNB",
+    coin: "USDT",
     walletType: 1,
     network: "BSC",
-    amount: Math.random() * 0.005 + 0.03 + 0.0006, // amount是需要减去fee的才是实际到账数量
+    amount: amt, // !!amount是需要减去fee的才是实际到账数量!! 
     address: address,
     timestamp: new Date().getTime(),
   };
 }
 
-// get Jennie states
-async function withdraw(row, webid) {
-  const address = row[0]; // 第一列 地址
-  if (!address) {
-    return { webid };
-  }
+// 记录日志函数
+async function logTransaction(status, address, response = {}) {
+  const logMessage = `${new Date().toISOString()} - ${status} - To: ${address}, body: ${JSON.stringify(
+    response
+  )}\n`;
+  await fs.promises.appendFile(LOG_FILE_PATH, logMessage);
+}
+
+// 提现函数
+async function processWithdrawal(keysData, index = 0) {
+  const address = keysData[index][0]; // 第一列为地址
+  let response;
   try {
-    const response = client.signRequest(
+    const apiKey = keysData[index][1];
+    const apiSecret = keysData[index][2];
+    const client = new Spot(apiKey, apiSecret);
+    console.info(`第${index + 1}行地址开始转账...`);
+    //
+    address && apiKey && apiSecret;
+    //
+    response = client.signRequest(
       "POST",
       "/sapi/v1/capital/withdraw/apply",
-      withdrawalMaker(address)
+      createWithdrawalInfo(address)
     );
 
-    return {
-      webid,
-      id: response?.data?.id,
-    };
-  } catch (err) {
-    console.error(
-      `Error withdrawing: ${JSON.stringify(error?.response?.data)}`
+    if (response.data.code === "0") {
+      console.info(
+        `Withdrawal successful: ${address} - ${JSON.stringify(response.data)}`
+      );
+      await logTransaction("successful", address, response.data);
+    } else {
+      console.error(`Error withdrawing: ${JSON.stringify(response.data)}`);
+      await logTransaction("fail", address, response.data);
+    }
+  } catch (error) {
+    console.error(`Error withdrawing: ${error.message}`);
+    await logTransaction("fail", address, { error: error.message });
+  }
+
+  if (index + 1 < keysData.length) {
+    // 随机延迟后处理下一个提现
+    const delay = 60000 + Math.random() * 70000;
+    console.info(
+      `第${index + 1}行转账结束，下一次将在${parseInt(
+        delay / 1000
+      )}秒后开始执行\n`
     );
-    return { webid, isSuccess: false };
+    setTimeout(() => processWithdrawal(keysData, index + 1), delay);
+  } else {
+    console.info(`第${index + 1}行转账结束，全部结束！\n`);
+    return;
   }
 }
 
-// 执行批处理，传入不同的业务逻辑函数
-processAllBatches(withdraw).catch((error) => {
-  console.error("An error occurred:", error);
-});
+// 开始提现过程
+processWithdrawal(keysData);

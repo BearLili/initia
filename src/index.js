@@ -127,12 +127,15 @@ async function getAccountBalances(row, webid, lcd) {
   const keyword = row[1]; // 假设 keysSheet 中的关键字在第2列
   const init_address = row[2]; // 假设 keysSheet 中的关键字在第2列
 
-  const key = new MnemonicKey({
-    mnemonic: keyword,
-  });
+  const key =
+    (keyword &&
+      new MnemonicKey({
+        mnemonic: keyword,
+      })) ||
+    "";
 
-  const privateKey = key.privateKey.toString("hex");
-  const wallet = new Wallet(lcd, key);
+  // const privateKey = key.privateKey.toString("hex");
+  const wallet = (key && new Wallet(lcd, key)) || {};
   try {
     let accAddress = (keyword && wallet.accAddress) || init_address;
     const balances = await lcd.bank.balance(accAddress);
