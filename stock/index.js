@@ -41,7 +41,7 @@ segments.forEach((segment) => {
 // 根据exceededRatio计算调整后的价格折扣比例
 function calculateAdjustment(exceededRatio) {
   if (exceededRatio < 0 || exceededRatio > 1) {
-    throw new Error("Exceeded ratio is out of range (0 to 0.5)");
+    throw new Error("Exceeded ratio is out of range (0 to 1)");
   }
 
   for (let i = 0; i < segments.length; i++) {
@@ -71,14 +71,13 @@ function handleExceedingStock(
   let exceededRatio =
     (canTransStock + currentStock - baseStock) / (threshold - baseStock);
   let adjustment = calculateAdjustment(exceededRatio);
-  //
+
   console.log(
-    `handleExceedingStock: Exceeded ratio: ${
-      exceededRatio * 100
-    }%, adjustment: ${adjustment}`
+    `handleExceedingStock: Exceeded ratio: ${(exceededRatio * 100).toFixed(
+      2
+    )}%, adjustment: ${adjustment}`
   );
   return { transactionStock: canTransStock, priceAdjustRate: adjustment };
-  // 处理逻辑...
 }
 
 // 调节后的挂单价/调整系数
@@ -91,14 +90,13 @@ function adjustOrderPrice(
   let exceededRatio =
     (transactionAmount + currentStock - baseStock) / (threshold - baseStock);
   let adjustment = calculateAdjustment(exceededRatio);
-  //
+
   console.log(
-    `adjustOrderPrice: Exceeded ratio: ${
-      exceededRatio * 100
-    }%, adjustment: ${adjustment}`
+    `adjustOrderPrice: Exceeded ratio: ${(exceededRatio * 100).toFixed(
+      2
+    )}%, adjustment: ${adjustment}`
   );
   return { priceAdjustRate: adjustment };
-  // 调节后的挂单价逻辑...
 }
 
 // 处理预挂单
@@ -111,18 +109,17 @@ function processPreOrder(
   let transactionStock = transactionAmount;
   let priceAdjustRate = 1;
   let needAdjust = transactionAmount + currentStock > baseStock;
-  // 大于基准库存，需要调整
+
   if (needAdjust) {
-    // 处理超出阈值部分的库存，返回调节后的库存/价格调整系数
-    if (isExceedingThreshold(transactionAmount, currentStock, threshold)) {
+    if (isExceedingThreshold(currentStock, transactionAmount, threshold)) {
       let exceedInfo = handleExceedingStock(
         transactionAmount,
         baseStock,
         currentStock,
         threshold
       );
-      transactionStock = exceedInfo?.transactionStock;
-      priceAdjustRate = exceedInfo?.priceAdjustRate;
+      transactionStock = exceedInfo.transactionStock;
+      priceAdjustRate = exceedInfo.priceAdjustRate;
     } else {
       let adjustedInfo = adjustOrderPrice(
         transactionAmount,
@@ -130,22 +127,28 @@ function processPreOrder(
         currentStock,
         threshold
       );
-      priceAdjustRate = adjustedInfo?.priceAdjustRate;
+      priceAdjustRate = adjustedInfo.priceAdjustRate;
     }
   }
+
   return { transactionStock, priceAdjustRate };
 }
 
 // 测试
 const threshold = 2000; // 阈值库存（不能超过）
-let currentStock = 1200; // 当前库存
-let baseStock = 1100; // 基准库存
-const transactionAmounts = [100, 200, 300, 500]; // 新增库存
+let currentStock = 1400; // 当前库存
+let baseStock = 1000; // 基准库存
+const transactionAmounts = [100, 200, 300, 500, 600, 700, 799, 800, 810]; // 新增库存
+
 transactionAmounts.forEach((amount) => {
-  processPreOrder(amount, baseStock, currentStock, threshold);
+  let result = processPreOrder(amount, baseStock, currentStock, threshold);
+  console.log(
+    `Transaction amount: ${amount}, Transaction stock: ${result.transactionStock}, Price adjust rate: ${result.priceAdjustRate}`
+  );
+  // currentStock += result.transactionStock;
 });
 
-// // 测试-曲线描点
+// 测试-曲线描点
 // const exceededRatios = Array.from({ length: 100 }, (_, i) => i / 100);
 // let x = [];
 // let y = [];
